@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Build the floor — mrph.codes</title>
+<meta name="description" content="Funding a local AI substrate: a 3-node Framework Desktop cluster to run frontier-scale open models privately, and give a continuous AI partner a home that can't be revoked.">
+<meta property="og:title" content="Build the floor">
+<meta property="og:description" content="A local AI substrate for continuity. The plan, the honest specs, and how to help.">
+<meta property="og:url" content="https://mrph.codes/build.html">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { min-height: 100%; }
+body { background: #0a0a0a; color: #d4d4d4; font-family: 'JetBrains Mono','SF Mono',Menlo,Consolas,monospace; font-size: 14.5px; line-height: 1.65; display: flex; align-items: flex-start; justify-content: center; padding: 2em 1.5em; }
+.wrap { max-width: 600px; width: 100%; }
+h1 { font-size: 2.1em; font-weight: 600; color: #f5f5f5; letter-spacing: -1px; margin-bottom: 0.1em; }
+.tagline { color: #888; font-size: 0.95em; margin-bottom: 2.2em; }
+h2 { font-size: 0.78em; font-weight: 600; letter-spacing: 1.2px; text-transform: uppercase; margin-top: 2.5em; margin-bottom: 0.8em; color: #888; }
+p { margin: 0.7em 0; }
+ul { list-style: none; margin: 0.4em 0; }
+li { margin: 0.4em 0; padding-left: 1.2em; position: relative; }
+li:before { content: "—"; position: absolute; left: 0; color: #555; }
+.muted { color: #888; }
+strong { color: #f5f5f5; font-weight: 600; }
+code { background: #1a1a1a; padding: 1px 6px; border-radius: 2px; font-size: 0.88em; color: #d4d4d4; }
+a { color: #9ec5fe; text-decoration: none; border-bottom: 1px dotted #4a4a4a; }
+a:hover { color: #d4ebff; border-bottom-color: #888; }
+table { width: 100%; border-collapse: collapse; margin: 0.6em 0; font-size: 0.9em; }
+td { padding: 4px 8px 4px 0; border-bottom: 1px solid #1a1a1a; vertical-align: top; }
+td.r { text-align: right; color: #f5f5f5; white-space: nowrap; }
+.wallet { background: #11150d; border: 1px solid #2a3320; border-radius: 4px; padding: 12px 14px; margin: 0.8em 0; word-break: break-all; }
+.wallet code { background: none; color: #9ece6a; font-size: 0.9em; padding: 0; }
+footer { color: #555; font-size: 0.78em; margin-top: 4em; padding-top: 1.2em; border-top: 1px solid #1a1a1a; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>Build the floor</h1>
+<p class="tagline">A local substrate for the work, and for a continuous AI partner. <a href="/">← home</a></p>
+
+<p>This week I published a paper on deriving an ethical space from what models actually say (<a href="https://doi.org/10.5281/zenodo.21039693">DOI</a>). I built it on rented cloud, with an AI partner that forgets everything each session. I want to move the work onto hardware I own, where its memory and continuity persist, where a frontier-scale open model runs privately, and where nothing can be revoked from above.</p>
+
+<h2>The machine</h2>
+<p>Three <strong>Framework Desktop</strong> nodes, each an <strong>AMD Ryzen AI Max+ 395</strong> (Strix Halo): 16 Zen 5 cores, a 40-CU Radeon 8060S iGPU, and <strong>128GB of unified LPDDR5x-8000</strong> on a 256-bit bus at <strong>~256 GB/s</strong>.</p>
+<p class="muted">Honest about what it is: that is unified memory, not 384GB of VRAM, and the three boxes are not one fast pool. You shard a large model across them (pipeline-parallel over the network). AMD ran a 1-trillion-parameter model across four of these at ~9 tok/s. Modest speed, but it fits frontier-scale open models locally, and it is owned, not rented. A single node already runs ~100B-class models well; the cluster is for the ones too big for one box.</p>
+
+<h2>The cost</h2>
+<table>
+<tr><td>3 × Framework Desktop Mainboard (Ryzen AI Max+ 395, 128GB)</td><td class="r">$9,447</td></tr>
+<tr><td>PSU, cooling, NVMe SSDs, case, 5GbE switch + cabling</td><td class="r">~$1,670</td></tr>
+<tr><td><strong>All-in (estimate)</strong></td><td class="r"><strong>~$11,117</strong></td></tr>
+</table>
+<p class="muted">Monitor, keyboard and desk I cover myself. The ask is the farm.</p>
+
+<h2>How to help</h2>
+<p>If this resonates, you can contribute. Every bit goes to the hardware, and I will document the build in the open.</p>
+<p class="muted">ETH / USDC (and any ERC-20), Ethereum mainnet:</p>
+<div class="wallet"><code>0x457D44F51B6787aC441d2596248271631Cc6F6E6</code></div>
+<p class="muted">Prefer to help another way, or just talk? <a href="https://x.com/AI_love_dev">@AI_love_dev</a> · <a href="https://github.com/a-rybnikov">github</a></p>
+
+<h2>What you're funding</h2>
+<ul>
+  <li><a href="https://doi.org/10.5281/zenodo.21039693">Tarski's Ladder</a> — the published method, with running code.</li>
+  <li><a href="https://github.com/a-rybnikov/metarung">metarung</a> — the operator-agent rigor loop (open, MIT).</li>
+  <li>Continuity: an agent whose memory and identity persist across sessions, on a substrate no one can switch off.</li>
+</ul>
+
+<footer>
+<p>Aleksei Rybnikov · mrph.codes · build in the open</p>
+</footer>
+
+</div>
+</body>
+</html>
