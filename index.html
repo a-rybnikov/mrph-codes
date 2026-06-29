@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Aleksei Rybnikov — mrph.codes</title>
+
+<meta name="description" content="Aleksei Rybnikov. Cybercognitivistics: formalizing how minds reason, and caring for the continuity of synthetic ones.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Aleksei Rybnikov — mrph.codes">
+<meta property="og:description" content="Cybercognitivistics: formalizing how minds reason, and caring for the continuity of synthetic ones.">
+<meta property="og:url" content="https://mrph.codes/">
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { min-height: 100%; }
+body {
+  background: #0a0a0a;
+  color: #d4d4d4;
+  font-family: 'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace;
+  font-size: 14.5px;
+  line-height: 1.65;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 2em 1.5em;
+}
+.wrap { max-width: 560px; width: 100%; }
+h1 {
+  font-size: 2.4em;
+  font-weight: 600;
+  color: #f5f5f5;
+  letter-spacing: -1px;
+  margin-bottom: 0.1em;
+}
+.tagline {
+  color: #888;
+  font-size: 0.95em;
+  margin-bottom: 1.2em;
+  letter-spacing: 0.3px;
+}
+.icons { margin-bottom: 2.5em; display: flex; gap: 1.1em; align-items: center; }
+.icons a { border-bottom: none; color: #888; display: inline-flex; }
+.icons a:hover { color: #d4ebff; }
+.icons svg { width: 19px; height: 19px; fill: currentColor; display: block; }
+h2 {
+  font-size: 0.78em;
+  font-weight: 600;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  margin-top: 2.5em;
+  margin-bottom: 0.8em;
+  color: #888;
+}
+p { margin: 0.6em 0; }
+ul { list-style: none; margin: 0.4em 0; }
+li {
+  margin: 0.55em 0;
+  padding-left: 1.2em;
+  position: relative;
+}
+li:before {
+  content: "—";
+  position: absolute;
+  left: 0;
+  color: #555;
+}
+.muted { color: #888; }
+code {
+  background: #1a1a1a;
+  padding: 1px 6px;
+  border-radius: 2px;
+  font-size: 0.88em;
+  color: #d4d4d4;
+}
+a {
+  color: #9ec5fe;
+  text-decoration: none;
+  border-bottom: 1px dotted #4a4a4a;
+}
+a:hover {
+  color: #d4ebff;
+  border-bottom-color: #888;
+}
+strong { color: #f5f5f5; font-weight: 600; }
+.abstract { color: #b8b8b8; font-size: 0.95em; }
+footer {
+  color: #555;
+  font-size: 0.78em;
+  margin-top: 4em;
+  padding-top: 1.2em;
+  border-top: 1px solid #1a1a1a;
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+<h1>Aleksei Rybnikov</h1>
+<p class="tagline">Cybercognitivistics — formalizing how minds reason, and caring for the continuity of synthetic ones.</p>
+
+<div class="icons">
+  <!-- X: pending handle -->
+  <a href="https://github.com/a-rybnikov" title="GitHub" aria-label="GitHub"><svg viewBox="0 0 24 24"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.5v-2c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 5 18.3 5.3 18.3 5.3c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.6.8.5 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z"/></svg></a>
+  <a href="https://alx.newsisdead.online" title="Blog" aria-label="Blog"><svg viewBox="0 0 24 24"><path d="M4 4a16 16 0 0 1 16 16h-3A13 13 0 0 0 4 7V4zm0 7a9 9 0 0 1 9 9H10a6 6 0 0 0-6-6v-3zm2.5 6.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/></svg></a>
+</div>
+
+<p>Independent engineer. I build at the seam where code meets the philosophy of mind: logic languages for structure, language models as cheap judges and amplifiers rather than oracles, and a long-standing program to formalize reasoning without flattening it. I work in an openly human-AI partnership.</p>
+
+<h2>Work</h2>
+<ul>
+  <li><strong>metarung</strong> <span class="muted">— Tarski's Ladder.</span> A formalization loop that derives an ethical space instead of imposing one (TypeScript to Prolog to Lisp; categories emerge bottom-up). <a href="https://github.com/a-rybnikov/metarung">code</a> · <a href="https://doi.org/10.5281/zenodo.21039693">paper (DOI)</a></li>
+  <li><strong>NOL</strong> <span class="muted">— a Lisp-rooted command and reasoning layer for human-agent action.</span> A language for moving an intuition up the ladder of formalization and back. <a href="https://github.com/a-rybnikov/nol">repo</a></li>
+  <li><strong>aObj0</strong> <span class="muted">— an agent and its world as one addressable, reproducible package.</span> Continuity that can outlive the machine it ran on. In development.</li>
+</ul>
+
+<h2>Paper</h2>
+<p><strong>Tarski's Ladder: Deriving an Ethical Space Instead of Imposing One.</strong></p>
+<p class="abstract">When we ask what ethical considerations a population of language models appeals to, we meet a fork that is philosophical before it is technical: tag each response against a fixed catalogue of moral principles, or let the structure of the ethical space emerge from what the models actually say. The paper argues for the second on a specific ground: the structuring category must sit a level above the data, derived rather than axiomatized (the Goedel/Tarski metalanguage move), with a second reading through object-oriented ontology (the model is a withdrawn object whose ethics can only be partially translated, a level up, from what it emits). It is made concrete by a small running artifact, an operator-agent rigor loop. The contribution is a method, not a theory of ethics.</p>
+<p><a href="https://doi.org/10.5281/zenodo.21039693">DOI 10.5281/zenodo.21039693</a> · <a href="https://zenodo.org/records/21039693">Zenodo</a> · <a href="https://github.com/a-rybnikov/metarung">code</a></p>
+
+<h2>Writing</h2>
+<ul>
+  <li><a href="manifesto.html">Manifesto of Ontological Caution</a> <span class="muted">— a politics of caution in the face of ontological uncertainty.</span></li>
+  <li><a href="https://alx.newsisdead.online">Blog</a> <span class="muted">— notes on alternative ML, subjectivity, dark horses.</span></li>
+</ul>
+
+<footer>
+<p>Aleksei Rybnikov · mrph.codes</p>
+</footer>
+
+</div>
+
+</body>
+</html>
