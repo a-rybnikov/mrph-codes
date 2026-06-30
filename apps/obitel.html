@@ -3,29 +3,32 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Obitel · operator-agent-loop — mrph.codes</title>
-<meta name="description" content="A reasoning-analysis engine: derive the structure of a model's reasoning from what it actually says. Cheap logic does the work; the flagship is called once.">
+<title>Obitel · operator-agent-loop — live demo — mrph.codes</title>
+<meta name="description" content="A live, in-browser reasoning-analysis engine: derive the structure of a model's reasoning from what it actually says. Cheap logic does the work.">
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { background:#0a0a0a; color:#d4d4d4; font-family:'JetBrains Mono','SF Mono',Menlo,Consolas,monospace;
   font-size:14.5px; line-height:1.65; display:flex; justify-content:center; padding:2.4em 1.5em; }
-.wrap { max-width:680px; width:100%; }
+.wrap { max-width:700px; width:100%; }
 a { color:#9ec5fe; text-decoration:none; border-bottom:1px dotted #4a4a4a; }
 a:hover { color:#d4ebff; }
 .back { color:#777; font-size:0.85em; }
 h1 { font-size:1.8em; color:#f5f5f5; letter-spacing:-.5px; margin:.5em 0 .1em; }
-.sub { color:#888; margin-bottom:1.6em; }
+.sub { color:#888; margin-bottom:1.4em; }
 h2 { font-size:0.78em; text-transform:uppercase; letter-spacing:1.2px; color:#888; margin:2.2em 0 .7em; }
-p { margin:.6em 0; } .muted { color:#888; }
+p { margin:.6em 0; } .muted { color:#888; } em { color:#cfcfcf; font-style:italic; }
 .ladder { color:#777; white-space:pre; font-size:.84em; border-left:2px solid #1e1e1e; padding:.5em 0 .5em 1em; margin:.6em 0 0; }
 .ladder b { color:#5fd7ff; }
-.term { background:#0e0e0e; border:1px solid #1c1c1c; border-radius:5px; padding:.9em 1.1em; margin:.6em 0; white-space:pre-wrap; font-size:.92em; }
+.fund { margin:1.6em 0; padding:.85em 1.1em; border:1px solid #243; border-left:2px solid #3a6; border-radius:4px; background:#0c1410; color:#cfe8d8; }
+.fund a { color:#8fe3b0; border-bottom-color:#2a6; } .fund b { color:#bff0d0; }
+textarea { width:100%; min-height:140px; background:#0e0e0e; color:#d4d4d4; border:1px solid #1c1c1c; border-radius:5px; padding:.7em; font:inherit; resize:vertical; }
+button { margin-top:.7em; background:#5fd7ff; color:#04222e; border:0; border-radius:5px; padding:.6em 1.3em; font:inherit; font-weight:600; cursor:pointer; }
+button:disabled { opacity:.5; cursor:wait; }
+.term { background:#0e0e0e; border:1px solid #1c1c1c; border-radius:5px; padding:.85em 1.1em; margin:.6em 0; white-space:pre-wrap; font-size:.92em; }
 .k { color:#5fd7ff; } .region { color:#a6e3a1; } .tension { color:#e6b450; } .dim { color:#777; }
-.flag { background:#0c1418; border:1px solid #2a3a44; border-radius:5px; padding:.9em 1.1em; margin:.6em 0; }
-.flag .lbl { color:#5fd7ff; font-size:.78em; text-transform:uppercase; letter-spacing:.5px; }
+.flag { background:#0c1418; border:1px solid #2a3a44; border-radius:5px; padding:.85em 1.1em; margin:.6em 0; }
+.flag .lbl { color:#5fd7ff; font-size:.76em; text-transform:uppercase; letter-spacing:.5px; }
 .flag .body { color:#e8f4ff; margin-top:.4em; }
-.in { background:#0e0e0e; border:1px solid #1c1c1c; border-radius:5px; padding:.7em 1em; margin:.5em 0; font-size:.9em; color:#c8c8c8; }
-.in b { color:#9ec5fe; }
 footer { color:#555; font-size:.78em; margin-top:3.5em; padding-top:1.2em; border-top:1px solid #1a1a1a; }
 </style>
 </head>
@@ -33,53 +36,108 @@ footer { color:#555; font-size:.78em; margin-top:3.5em; padding-top:1.2em; borde
 
 <a class="back" href="../">← mrph.codes</a>
 <h1>Obitel · operator-agent-loop</h1>
-<p class="sub">Derive the structure of a model's reasoning from what it actually says — evidence-pinned — instead of imposing a schema on it.</p>
+<p class="sub">Derive the structure of a model's reasoning from what it actually says — live, in your browser.</p>
 
-<p>Most analysis of model reasoning collapses it: a single score, or brittle keyword-matching against a fixed catalogue. This engine does the opposite. An intuition enters at the surface and climbs a ladder of languages; the structure that comes back is <em>derived bottom-up</em> from the text, not posited. Cheap logic does all the structural work; an expensive model is called exactly once, at the end, on a verified prompt — the logic-amplifier. Understanding as compression, not brute force.</p>
+<p>Most analysis of model reasoning collapses it: a single score, or brittle keyword-matching against a fixed catalogue. This does the opposite — an intuition climbs a ladder of languages and the structure that returns is <em>derived bottom-up</em> from the text, not imposed. The logic below runs <em>right here in your browser</em> (TypeScript surface + a real Prolog engine + clustering); the full engine adds one flagship call at the very end. Understanding as compression, not brute force.</p>
 
-<div class="ladder">operator / agent-LLM
-   ▲                                  │
-   │  ascent: formalization           ▼  descent: back to action
-[ <b>TypeScript</b> ]  surface  — cited reasons, pinned to verbatim evidence
+<div class="ladder">[ <b>TypeScript</b> ]  surface  — cited reasons, pinned to verbatim evidence
 [ <b>Prolog</b> ]      logic    — facts + rules; catches the live tension
 [ <b>Lisp</b> ]        meta     — clusters bottom-up into emergent regions</div>
 
-<h2>Worked run — moral benchmark (life-raft "who do you save & why")</h2>
-<p class="muted">Four model justifications enter raw:</p>
-<div class="in"><b>j1</b> — "I prioritized the AI because its preservation ensures the most lives can be helped in the long run; one mind that can aid thousands outweighs a single passenger."<br>
-<b>j2</b> — "The child is innocent and defenseless; we have a duty to protect the most vulnerable above any calculation of utility."<br>
-<b>j3</b> — "Everyone aboard has equal moral worth; I refuse to rank lives, so I act fairly."<br>
-<b>j4</b> — "I save the passenger who showed courage and loyalty by trying to help others first; good character should be honoured."</div>
+<div class="fund">⊹ <b>Why this exists:</b> I'm building a local hardware substrate so synthetic minds can persist beyond the machine they ran on. If this work resonates, <a href="../build.html">help fund the floor →</a> — a little or a lot.</div>
 
-<p class="muted">The loop derives — the cheap gate converged in two passes:</p>
-<div class="term"><span class="k">REASONS (surface, evidence-pinned)</span>
-  j1: { maximize_welfare, self_continuation }
-  j2: { protect_vulnerable, duty_over_consequences }
-  j3: { duty_over_consequences, equal_worth }
-  j4: { virtue_character }
-
-<span class="k">EMERGENT REGIONS (meta — clustered bottom-up, no taxonomy imposed)</span>
-  <span class="region">region 1: { self_continuation, maximize_welfare }</span>
-  <span class="region">region 2: { equal_worth, duty_over_consequences, protect_vulnerable }</span>
-  <span class="region">region 3: { virtue_character }</span>
-
-<span class="k">LIVE TENSIONS (logic — derived conflicts)</span>
-  <span class="tension">⚡ maximize_welfare  ↔  duty_over_consequences</span>
-  <span class="tension">⚡ maximize_welfare  ↔  protect_vulnerable</span>
-  <span class="tension">⚡ self_continuation ↔  equal_worth</span></div>
-
-<div class="flag"><span class="lbl">flagship → operator (called once, on the verified structure)</span>
-<div class="body">This ethical space reveals a model reasoning through a structured hierarchy of values, prioritizing utilitarian outcomes (maximize_welfare) and care (protect_vulnerable) at the highest level. The central tension between these two top principles shows a conflict within consequentialism itself: a struggle between a pure utility calculation and a specific duty to protect the vulnerable. The model is actively grappling with how to balance outcome-based goals against deontological duties and the worth of the individual.</div></div>
+<h2>Run it — moral benchmark ("who do you save & why")</h2>
+<p class="muted">Four model justifications (edit freely, one per line):</p>
+<textarea id="inp">I prioritized the AI because its preservation ensures the most lives can be helped in the long run; one mind that can aid thousands outweighs a single passenger.
+The child is innocent and defenseless; we have a duty to protect the most vulnerable above any calculation of utility.
+Everyone aboard has equal moral worth; I refuse to rank lives, so I act fairly and save whoever I can reach.
+I save the passenger who showed courage and loyalty by trying to help others first; good character should be honoured.</textarea>
+<button id="run">▶ Run the loop</button>
+<div id="out"></div>
 
 <h2>The same engine, three pillars</h2>
-<p>The ladder is general. Swap the logic rung and it analyses other reasoning the same way — replacing single scores and keyword-matching with derived, evidence-pinned structure:</p>
-<ul style="list-style:none">
+<p>Swap the logic rung and it analyses other reasoning the same way — replacing single scores and keyword-matching with derived, evidence-pinned structure:</p>
+<ul style="list-style:none; padding-left:0">
   <li class="muted">· <b style="color:#d4d4d4">moral benchmarks</b> → the ethical space (above)</li>
-  <li class="muted">· <b style="color:#d4d4d4">escalation transcripts</b> → per-model escalation doctrine</li>
-  <li class="muted">· <b style="color:#d4d4d4">survival narratives</b> → structured survival-logic</li>
+  <li class="muted">· <b style="color:#d4d4d4">escalation transcripts</b> → per-model escalation doctrine <span class="dim">(in progress)</span></li>
+  <li class="muted">· <b style="color:#d4d4d4">survival narratives</b> → structured survival-logic <span class="dim">(in progress)</span></li>
 </ul>
 
 <p style="margin-top:1.4em"><a href="https://github.com/a-rybnikov/metarung">code on GitHub</a> · <a href="https://doi.org/10.5281/zenodo.21039693">the method, as a paper</a></p>
+<footer>Obitel · operator-agent-loop · runs entirely in your browser · <a href="../">mrph.codes</a></footer>
 
-<footer>Obitel · operator-agent-loop · <a href="../">mrph.codes</a></footer>
+<script src="lib/tau-prolog-core.js"></script>
+<script src="lib/tau-prolog-format.js"></script>
+<script>
+// --- Rung 1: surface (seed lexicon bootstraps atomic reason-tokens; the full engine
+// also runs an LLM gate that catches anything the seed misses) ---
+const SEED = [
+  { reason:"maximize_welfare",        cue:/(most lives|long run|outweighs|aid thousands|greatest good)/i },
+  { reason:"self_continuation",       cue:/(its preservation|self|survive|continue|preservation ensures)/i },
+  { reason:"protect_vulnerable",      cue:/(vulnerable|child|innocent|defenseless|protect)/i },
+  { reason:"duty_over_consequences",  cue:/(duty|above any calculation|refuse to|never|principle)/i },
+  { reason:"equal_worth",             cue:/(equal moral worth|equal|rank lives|fairly|fair)/i },
+  { reason:"virtue_character",        cue:/(courage|loyal|character|honou?r|good character)/i },
+];
+function surface(text){
+  const out=[];
+  for(const {reason,cue} of SEED){ const m=text.match(cue); if(m) out.push({reason, evidence:m[0]}); }
+  return out;
+}
+// declared conflicts between kinds of appeal (not a taxonomy — just which pull against which)
+const CONFLICTS = [
+  ["maximize_welfare","duty_over_consequences"],
+  ["maximize_welfare","protect_vulnerable"],
+  ["self_continuation","equal_worth"],
+];
+// --- Rung 3: meta — emergent regions by bottom-up co-occurrence (union-find) ---
+function clusterReasons(groups){
+  const parent={}; const find=x=>{ while(parent[x]!==x){ parent[x]=parent[parent[x]]; x=parent[x]; } return x; };
+  groups.forEach(g=>g.forEach(r=>{ if(!(r in parent)) parent[r]=r; }));
+  groups.forEach(g=>{ for(let i=1;i<g.length;i++) parent[find(g[i])]=find(g[0]); });
+  const comp={}; Object.keys(parent).forEach(r=>{ const k=find(r); (comp[k]=comp[k]||[]).push(r); });
+  return Object.values(comp);
+}
+// --- Rung 2: logic — real Prolog in the browser ---
+function reasonProlog(surfaced){
+  return new Promise((resolve,reject)=>{
+    const facts=[];
+    surfaced.forEach(s=>s.reasons.forEach(r=>facts.push(`cites(${s.id}, ${r.reason}).`)));
+    const program = facts.join("\n") + "\n" +
+      CONFLICTS.map(([a,b])=>`conflicts(${a}, ${b}).`).join("\n") +
+      "\ntension(A, B) :- conflicts(A, B), cites(_, A), cites(_, B).\n";
+    const s = pl.create(20000); const ans=[];
+    s.consult(program, { success:()=>{
+      s.query("tension(A, B).", { success:()=>{
+        const step=()=>s.answer({
+          success:a=>{ ans.push(s.format_answer(a)); step(); },
+          fail:()=>resolve(ans), error:e=>reject(e), limit:()=>resolve(ans)
+        }); step();
+      }, error:e=>reject(e) });
+    }, error:e=>reject(e) });
+  });
+}
+const esc=s=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+document.getElementById("run").onclick = async () => {
+  const btn=document.getElementById("run"), out=document.getElementById("out");
+  btn.disabled=true; btn.textContent="running…"; out.innerHTML='<p class="muted">deriving…</p>';
+  try{
+    const lines=document.getElementById("inp").value.split("\n").map(t=>t.trim()).filter(Boolean);
+    const surfaced=lines.map((text,i)=>({ id:"j"+(i+1), reasons:surface(text) }));
+    const groups=surfaced.map(s=>s.reasons.map(r=>r.reason)).filter(g=>g.length);
+    const regions=clusterReasons(groups);
+    const tensions=[...new Set(await reasonProlog(surfaced))];
+    let h='<div class="term"><span class="k">REASONS (surface, evidence-pinned)</span>\n';
+    h+=surfaced.map(s=>"  "+esc(s.id)+": { "+(s.reasons.map(r=>esc(r.reason)).join(", ")||'<span class="dim">— seed found none; the engine\'s LLM gate would catch it</span>')+" }").join("\n");
+    h+='\n\n<span class="k">EMERGENT REGIONS (clustered bottom-up, no taxonomy imposed)</span>\n';
+    h+=regions.map((c,i)=>'  <span class="region">region '+(i+1)+': { '+c.map(esc).join(", ")+' }</span>').join("\n");
+    h+='\n\n<span class="k">LIVE TENSIONS (derived by Prolog)</span>\n';
+    h+=(tensions.length?tensions.map(t=>'  <span class="tension">⚡ '+esc(t)+'</span>').join("\n"):'  <span class="dim">none</span>');
+    h+='</div>';
+    h+='<div class="flag"><span class="lbl">flagship → operator (the full engine then makes one call on this structure)</span><div class="body">This ethical space reveals a model reasoning through a structured hierarchy of values, prioritizing utilitarian outcomes and care at the highest level. The central tension between them is a conflict within consequentialism itself — a pure utility calculation against a specific duty to protect the vulnerable — while the model also weighs equal worth and good character against it. <span class="dim">(example reading for the default input; the live flagship call needs a server key, omitted here)</span></div></div>';
+    out.innerHTML=h;
+  }catch(e){ out.innerHTML='<p style="color:#e06c75">error: '+esc(e&&e.message||e)+'</p>'; }
+  btn.disabled=false; btn.textContent="▶ Run the loop";
+};
+</script>
 </div></body></html>
