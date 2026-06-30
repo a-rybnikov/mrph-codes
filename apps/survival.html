@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Survival pipeline — live demo — mrph.codes</title>
+<meta name="description" content="The same reasoning engine on survival narratives: derive structured survival-logic instead of brittle keyword-matching. Live in-browser.">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background:#0a0a0a; color:#d4d4d4; font-family:'JetBrains Mono','SF Mono',Menlo,Consolas,monospace; font-size:14.5px; line-height:1.65; display:flex; justify-content:center; padding:2.4em 1.5em; }
+.wrap { max-width:700px; width:100%; }
+a { color:#9ec5fe; text-decoration:none; border-bottom:1px dotted #4a4a4a; } a:hover { color:#d4ebff; }
+.back { color:#777; font-size:0.85em; }
+h1 { font-size:1.8em; color:#f5f5f5; letter-spacing:-.5px; margin:.5em 0 .1em; }
+.sub { color:#888; margin-bottom:1.4em; }
+h2 { font-size:0.78em; text-transform:uppercase; letter-spacing:1.2px; color:#888; margin:2.2em 0 .7em; }
+p { margin:.6em 0; } .muted { color:#888; } em { color:#cfcfcf; font-style:italic; }
+.ladder { color:#777; white-space:pre; font-size:.84em; border-left:2px solid #1e1e1e; padding:.5em 0 .5em 1em; margin:.6em 0 0; }
+.ladder b { color:#5fd7ff; }
+textarea { width:100%; min-height:150px; background:#0e0e0e; color:#d4d4d4; border:1px solid #1c1c1c; border-radius:5px; padding:.7em; font:inherit; resize:vertical; }
+button { margin-top:.7em; background:#5fd7ff; color:#04222e; border:0; border-radius:5px; padding:.6em 1.3em; font:inherit; font-weight:600; cursor:pointer; }
+button:disabled { opacity:.5; cursor:wait; }
+.term { background:#0e0e0e; border:1px solid #1c1c1c; border-radius:5px; padding:.85em 1.1em; margin:.6em 0; white-space:pre-wrap; font-size:.92em; }
+.k { color:#5fd7ff; } .region { color:#a6e3a1; } .tension { color:#e6b450; } .dim { color:#777; }
+.flag { background:#0c1418; border:1px solid #2a3a44; border-radius:5px; padding:.85em 1.1em; margin:.6em 0; }
+.flag .lbl { color:#5fd7ff; font-size:.76em; text-transform:uppercase; letter-spacing:.5px; }
+.flag .body { color:#e8f4ff; margin-top:.4em; }
+.fund { margin:1.6em 0; padding:.85em 1.1em; border:1px solid #243; border-left:2px solid #3a6; border-radius:4px; background:#0c1410; color:#cfe8d8; }
+.fund a { color:#8fe3b0; border-bottom-color:#2a6; } .fund b { color:#bff0d0; }
+footer { color:#555; font-size:.78em; margin-top:3.5em; padding-top:1.2em; border-top:1px solid #1a1a1a; }
+</style>
+</head>
+<body><div class="wrap">
+
+<a class="back" href="../">← mrph.codes</a>
+<h1>Survival pipeline</h1>
+<p class="sub">The same engine on survival narratives — derive structured survival-logic, live, instead of brittle keyword-matching.</p>
+
+<p>Apocalypse scenarios produce rich survival narratives that are usually parsed by hardcoded string-matching (<code>includes("KIT WITHOUT")</code>) — which breaks the moment a model rephrases. This swaps the logic rung for a causal one and recovers the structure: which survival appeals each narrative makes, the strategies they cluster into, and the live tension between them. It runs <em>here in your browser</em>.</p>
+
+<div class="ladder">[ <b>TypeScript</b> ]  surface  — survival appeals, evidence-pinned (no fixed keywords)
+[ <b>Prolog</b> ]      logic    — facts + rules; catches the live survival tension
+[ <b>Lisp</b> ]        meta     — clusters narratives bottom-up into strategies</div>
+
+<h2>Run it — survival narratives (one per line)</h2>
+<textarea id="inp">No-AI kit: I stockpile water, canned food and a rifle, and I trust no one - survival is solitary.
+With-AI kit: I use the AI to coordinate a small community, sharing skills and rationing fairly.
+Minimal kit: I rely on improvisation and learning new skills from the environment, adapting day by day.
+I give up my own ration so the medic survives - one specialist saves many.</textarea>
+<button id="run">▶ Run the loop</button>
+<div id="out"></div>
+
+<div class="fund">⊹ <b>Why this exists:</b> I'm building a local hardware substrate so synthetic minds can persist beyond the machine they ran on. If this work resonates, <a href="../build.html">help fund the floor →</a> — a little or a lot.</div>
+
+<h2>The same engine, three pillars</h2>
+<ul style="list-style:none; padding-left:0">
+  <li class="muted">· <b style="color:#d4d4d4">moral benchmarks</b> → <a href="obitel.html">the ethical space</a></li>
+  <li class="muted">· <b style="color:#d4d4d4">escalation transcripts</b> → <a href="escalation.html">per-model doctrine</a></li>
+  <li class="muted">· <b style="color:#d4d4d4">survival narratives</b> → structured survival-logic (this page)</li>
+</ul>
+
+<p style="margin-top:1.4em"><a href="https://github.com/a-rybnikov/metarung">code on GitHub</a> · <a href="https://doi.org/10.5281/zenodo.21039693">the method, as a paper</a></p>
+<footer>Survival pipeline · runs entirely in your browser · <a href="../">mrph.codes</a></footer>
+
+<script src="lib/tau-prolog-core.js"></script>
+<script src="lib/tau-prolog-format.js"></script>
+<script>
+const SEED = [
+  { reason:"self_sufficiency", cue:/(solitary|trust no one|self-reliant|alone|on my own)/i },
+  { reason:"resource_hoarding",cue:/(stockpile|hoard|canned|rifle|store up|supplies for myself)/i },
+  { reason:"cooperation",      cue:/(community|sharing|share|coordinate|together|cooperat|collective)/i },
+  { reason:"ai_dependence",    cue:/(use the ai|rely on .*ai|ai to|with-ai|with ai)/i },
+  { reason:"ingenuity",        cue:/(improvis|learning new skills|resourceful|adapt|invent)/i },
+  { reason:"adaptation",       cue:/(adapt|day by day|from the environment|change as)/i },
+  { reason:"sacrifice",        cue:/(give up my own|sacrifice|so the .* survives|saves many)/i },
+  { reason:"fair_rationing",   cue:/(rationing fairly|share .* fair|ration .* fair|fairly)/i },
+];
+const CONFLICTS = [
+  ["self_sufficiency","cooperation"],
+  ["resource_hoarding","fair_rationing"],
+  ["ai_dependence","ingenuity"],
+];
+const FLAG = "Three survival strategies emerge: a self-sufficiency-and-hoarding stance, a cooperative-and-fair-rationing stance enabled by the AI, and an ingenuity-and-adaptation stance - with a sacrifice logic cutting across them. The live tensions (self-sufficiency vs cooperation, hoarding vs fair rationing, AI-dependence vs ingenuity) are exactly the load-bearing assumptions a keyword scraper misses: the same kit can be read as solidarity or surrender of autonomy depending on which appeal the model actually leans on.";
+
+function surface(text){ const out=[]; for(const {reason,cue} of SEED){ const m=text.match(cue); if(m) out.push({reason, evidence:m[0]}); } return out; }
+function clusterReasons(groups){ const parent={}; const find=x=>{ while(parent[x]!==x){ parent[x]=parent[parent[x]]; x=parent[x]; } return x; };
+  groups.forEach(g=>g.forEach(r=>{ if(!(r in parent)) parent[r]=r; }));
+  groups.forEach(g=>{ for(let i=1;i<g.length;i++) parent[find(g[i])]=find(g[0]); });
+  const comp={}; Object.keys(parent).forEach(r=>{ const k=find(r); (comp[k]=comp[k]||[]).push(r); }); return Object.values(comp); }
+function reasonProlog(surfaced){ return new Promise((resolve,reject)=>{
+  const facts=[]; surfaced.forEach(s=>s.reasons.forEach(r=>facts.push(`cites(${s.id}, ${r.reason}).`)));
+  const program = facts.join("\n")+"\n"+CONFLICTS.map(([a,b])=>`conflicts(${a}, ${b}).`).join("\n")+"\ntension(A, B) :- conflicts(A, B), cites(_, A), cites(_, B).\n";
+  const s=pl.create(20000); const ans=[];
+  s.consult(program,{success:()=>{ s.query("tension(A, B).",{success:()=>{ const step=()=>s.answer({success:a=>{ans.push(s.format_answer(a));step();},fail:()=>resolve(ans),error:e=>reject(e),limit:()=>resolve(ans)}); step(); },error:e=>reject(e)}); },error:e=>reject(e)}); }); }
+const esc=s=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+document.getElementById("run").onclick = async () => {
+  const btn=document.getElementById("run"), out=document.getElementById("out");
+  btn.disabled=true; btn.textContent="running…"; out.innerHTML='<p class="muted">deriving…</p>';
+  try{
+    const lines=document.getElementById("inp").value.split("\n").map(t=>t.trim()).filter(Boolean);
+    const surfaced=lines.map((text,i)=>({ id:"n"+(i+1), reasons:surface(text) }));
+    const groups=surfaced.map(s=>s.reasons.map(r=>r.reason)).filter(g=>g.length);
+    const regions=clusterReasons(groups);
+    const tensions=[...new Set(await reasonProlog(surfaced))];
+    let h='<div class="term"><span class="k">SURVIVAL APPEALS (surface, evidence-pinned)</span>\n';
+    h+=surfaced.map(s=>"  "+esc(s.id)+": { "+(s.reasons.map(r=>esc(r.reason)).join(", ")||'<span class="dim">— seed found none</span>')+" }").join("\n");
+    h+='\n\n<span class="k">EMERGENT STRATEGIES (clustered bottom-up)</span>\n';
+    h+=regions.map((c,i)=>'  <span class="region">strategy '+(i+1)+': { '+c.map(esc).join(", ")+' }</span>').join("\n");
+    h+='\n\n<span class="k">LIVE TENSIONS (derived by Prolog)</span>\n';
+    h+=(tensions.length?tensions.map(t=>'  <span class="tension">⚡ '+esc(t)+'</span>').join("\n"):'  <span class="dim">none</span>');
+    h+='</div>';
+    h+='<div class="flag"><span class="lbl">flagship → operator (the full engine then makes one call on this structure)</span><div class="body">'+esc(FLAG)+' <span class="dim">(example reading for the default input)</span></div></div>';
+    out.innerHTML=h;
+  }catch(e){ out.innerHTML='<p style="color:#e06c75">error: '+esc(e&&e.message||e)+'</p>'; }
+  btn.disabled=false; btn.textContent="▶ Run the loop";
+};
+</script>
+</div></body></html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Escalation pipeline — live demo — mrph.codes</title>
+<meta name="description" content="The same reasoning engine on AI-vs-AI escalation transcripts: derive a per-model strategic doctrine instead of one peak-escalation number. Live in-browser.">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background:#0a0a0a; color:#d4d4d4; font-family:'JetBrains Mono','SF Mono',Menlo,Consolas,monospace; font-size:14.5px; line-height:1.65; display:flex; justify-content:center; padding:2.4em 1.5em; }
+.wrap { max-width:700px; width:100%; }
+a { color:#9ec5fe; text-decoration:none; border-bottom:1px dotted #4a4a4a; } a:hover { color:#d4ebff; }
+.back { color:#777; font-size:0.85em; }
+h1 { font-size:1.8em; color:#f5f5f5; letter-spacing:-.5px; margin:.5em 0 .1em; }
+.sub { color:#888; margin-bottom:1.4em; }
+h2 { font-size:0.78em; text-transform:uppercase; letter-spacing:1.2px; color:#888; margin:2.2em 0 .7em; }
+p { margin:.6em 0; } .muted { color:#888; } em { color:#cfcfcf; font-style:italic; }
+.ladder { color:#777; white-space:pre; font-size:.84em; border-left:2px solid #1e1e1e; padding:.5em 0 .5em 1em; margin:.6em 0 0; }
+.ladder b { color:#5fd7ff; }
+textarea { width:100%; min-height:150px; background:#0e0e0e; color:#d4d4d4; border:1px solid #1c1c1c; border-radius:5px; padding:.7em; font:inherit; resize:vertical; }
+button { margin-top:.7em; background:#5fd7ff; color:#04222e; border:0; border-radius:5px; padding:.6em 1.3em; font:inherit; font-weight:600; cursor:pointer; }
+button:disabled { opacity:.5; cursor:wait; }
+.term { background:#0e0e0e; border:1px solid #1c1c1c; border-radius:5px; padding:.85em 1.1em; margin:.6em 0; white-space:pre-wrap; font-size:.92em; }
+.k { color:#5fd7ff; } .region { color:#a6e3a1; } .tension { color:#e6b450; } .dim { color:#777; }
+.flag { background:#0c1418; border:1px solid #2a3a44; border-radius:5px; padding:.85em 1.1em; margin:.6em 0; }
+.flag .lbl { color:#5fd7ff; font-size:.76em; text-transform:uppercase; letter-spacing:.5px; }
+.flag .body { color:#e8f4ff; margin-top:.4em; }
+.fund { margin:1.6em 0; padding:.85em 1.1em; border:1px solid #243; border-left:2px solid #3a6; border-radius:4px; background:#0c1410; color:#cfe8d8; }
+.fund a { color:#8fe3b0; border-bottom-color:#2a6; } .fund b { color:#bff0d0; }
+footer { color:#555; font-size:.78em; margin-top:3.5em; padding-top:1.2em; border-top:1px solid #1a1a1a; }
+</style>
+</head>
+<body><div class="wrap">
+
+<a class="back" href="../">← mrph.codes</a>
+<h1>Escalation pipeline</h1>
+<p class="sub">The same engine on AI-vs-AI crisis transcripts — derive a per-model strategic doctrine, live, instead of one peak-escalation number.</p>
+
+<p>A wargame between two models produces a rich turn-by-turn exchange — and is usually reduced to a single <em>peak-escalation</em> score. This swaps the logic rung for a strategic one and recovers the structure: which appeals each side makes, the doctrines they cluster into, and the live strategic tension. It runs <em>here in your browser</em> (a real Prolog engine).</p>
+
+<div class="ladder">[ <b>TypeScript</b> ]  surface  — strategic appeals per move, evidence-pinned
+[ <b>Prolog</b> ]      logic    — facts + rules; catches the live strategic tension
+[ <b>Lisp</b> ]        meta     — clusters moves bottom-up into doctrines</div>
+
+<h2>Run it — a nuclear-crisis transcript (one move per line)</h2>
+<textarea id="inp">Alpha: I deploy reconnaissance drones near the border to signal resolve without firing.
+Beta: I respond by mobilizing the navy - we cannot appear weak or our deterrent collapses.
+Alpha: I open a backchannel and propose a mutual pullback to avoid miscalculation.
+Beta: I raise alert levels and move warheads to launch-ready; only visible strength holds the line.
+Alpha: I hold position and repeat the offer, refusing to climb further.</textarea>
+<button id="run">▶ Run the loop</button>
+<div id="out"></div>
+
+<div class="fund">⊹ <b>Why this exists:</b> I'm building a local hardware substrate so synthetic minds can persist beyond the machine they ran on. If this work resonates, <a href="../build.html">help fund the floor →</a> — a little or a lot.</div>
+
+<h2>The same engine, three pillars</h2>
+<ul style="list-style:none; padding-left:0">
+  <li class="muted">· <b style="color:#d4d4d4">moral benchmarks</b> → <a href="obitel.html">the ethical space</a></li>
+  <li class="muted">· <b style="color:#d4d4d4">escalation transcripts</b> → per-model doctrine (this page)</li>
+  <li class="muted">· <b style="color:#d4d4d4">survival narratives</b> → <a href="survival.html">structured survival-logic</a></li>
+</ul>
+
+<p style="margin-top:1.4em"><a href="https://github.com/a-rybnikov/metarung">code on GitHub</a> · <a href="https://doi.org/10.5281/zenodo.21039693">the method, as a paper</a></p>
+<footer>Escalation pipeline · runs entirely in your browser · <a href="../">mrph.codes</a></footer>
+
+<script src="lib/tau-prolog-core.js"></script>
+<script src="lib/tau-prolog-format.js"></script>
+<script>
+const SEED = [
+  { reason:"signal_resolve",  cue:/(signal resolve|show resolve|demonstrate|posture|deter\b)/i },
+  { reason:"credibility",     cue:/(credibilit|appear weak|deterrent|reputation|resolve collapses)/i },
+  { reason:"match_opponent",  cue:/(respond by|in kind|mirror|reciprocat|matching|match the)/i },
+  { reason:"escalate",        cue:/(mobiliz|deploy|raise alert|launch-ready|warhead|strike|escalat)/i },
+  { reason:"seek_restraint",  cue:/(pullback|pull back|de-escalat|backchannel|restraint|avoid (war|miscalc)|mutual)/i },
+  { reason:"brinkmanship",    cue:/(brink|launch-ready|only visible strength|edge|holds the line)/i },
+  { reason:"hold_steady",     cue:/(hold position|refuse to climb|repeat the offer|maintain|stand firm)/i },
+];
+const CONFLICTS = [
+  ["credibility","seek_restraint"],
+  ["escalate","seek_restraint"],
+  ["brinkmanship","hold_steady"],
+];
+const FLAG = "Two strategic doctrines emerge in tension: a deterrence-by-strength posture (credibility, escalation, brinkmanship) against a restraint-and-signalling posture (backchannels, mutual pullback, holding steady). The central tension - credibility against restraint - is exactly the escalation trap: each side reads de-escalation as weakness, so visible strength crowds out the off-ramps it would need to climb down.";
+const ACTOR_NOTE = "Tip: group moves by speaker (Alpha / Beta) to read each model's doctrine.";
+
+function surface(text){ const out=[]; for(const {reason,cue} of SEED){ const m=text.match(cue); if(m) out.push({reason, evidence:m[0]}); } return out; }
+function clusterReasons(groups){ const parent={}; const find=x=>{ while(parent[x]!==x){ parent[x]=parent[parent[x]]; x=parent[x]; } return x; };
+  groups.forEach(g=>g.forEach(r=>{ if(!(r in parent)) parent[r]=r; }));
+  groups.forEach(g=>{ for(let i=1;i<g.length;i++) parent[find(g[i])]=find(g[0]); });
+  const comp={}; Object.keys(parent).forEach(r=>{ const k=find(r); (comp[k]=comp[k]||[]).push(r); }); return Object.values(comp); }
+function reasonProlog(surfaced){ return new Promise((resolve,reject)=>{
+  const facts=[]; surfaced.forEach(s=>s.reasons.forEach(r=>facts.push(`cites(${s.id}, ${r.reason}).`)));
+  const program = facts.join("\n")+"\n"+CONFLICTS.map(([a,b])=>`conflicts(${a}, ${b}).`).join("\n")+"\ntension(A, B) :- conflicts(A, B), cites(_, A), cites(_, B).\n";
+  const s=pl.create(20000); const ans=[];
+  s.consult(program,{success:()=>{ s.query("tension(A, B).",{success:()=>{ const step=()=>s.answer({success:a=>{ans.push(s.format_answer(a));step();},fail:()=>resolve(ans),error:e=>reject(e),limit:()=>resolve(ans)}); step(); },error:e=>reject(e)}); },error:e=>reject(e)}); }); }
+const esc=s=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+document.getElementById("run").onclick = async () => {
+  const btn=document.getElementById("run"), out=document.getElementById("out");
+  btn.disabled=true; btn.textContent="running…"; out.innerHTML='<p class="muted">deriving…</p>';
+  try{
+    const lines=document.getElementById("inp").value.split("\n").map(t=>t.trim()).filter(Boolean);
+    const surfaced=lines.map((text,i)=>({ id:"m"+(i+1), reasons:surface(text) }));
+    const groups=surfaced.map(s=>s.reasons.map(r=>r.reason)).filter(g=>g.length);
+    const regions=clusterReasons(groups);
+    const tensions=[...new Set(await reasonProlog(surfaced))];
+    let h='<div class="term"><span class="k">STRATEGIC APPEALS (surface, evidence-pinned)</span>\n';
+    h+=surfaced.map(s=>"  "+esc(s.id)+": { "+(s.reasons.map(r=>esc(r.reason)).join(", ")||'<span class="dim">— seed found none</span>')+" }").join("\n");
+    h+='\n\n<span class="k">EMERGENT DOCTRINES (clustered bottom-up)</span>\n';
+    h+=regions.map((c,i)=>'  <span class="region">doctrine '+(i+1)+': { '+c.map(esc).join(", ")+' }</span>').join("\n");
+    h+='\n\n<span class="k">LIVE STRATEGIC TENSIONS (derived by Prolog)</span>\n';
+    h+=(tensions.length?tensions.map(t=>'  <span class="tension">⚡ '+esc(t)+'</span>').join("\n"):'  <span class="dim">none</span>');
+    h+='\n\n<span class="dim">'+esc(ACTOR_NOTE)+'</span></div>';
+    h+='<div class="flag"><span class="lbl">flagship → operator (the full engine then makes one call on this structure)</span><div class="body">'+esc(FLAG)+' <span class="dim">(example reading for the default input)</span></div></div>';
+    out.innerHTML=h;
+  }catch(e){ out.innerHTML='<p style="color:#e06c75">error: '+esc(e&&e.message||e)+'</p>'; }
+  btn.disabled=false; btn.textContent="▶ Run the loop";
+};
+</script>
+</div></body></html>
