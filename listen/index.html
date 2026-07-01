@@ -1,11 +1,22 @@
 <!DOCTYPE html><html lang="ru"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Лекции · перевод</title><style>
-body{background:#0c0c0d;color:#c9c7c2;font-family:Georgia,serif;max-width:640px;margin:0 auto;padding:2em 1.4em}
-h1{color:#f2efe9;font-size:1.4em} a{color:#9ec5fe} li{margin:.6em 0}
-audio{width:100%;margin:1.4em 0}</style></head><body>
-<h1>Лекции · русская озвучка</h1>
-<audio controls autoplay src="lecture-6a-streams-part-1.mp3"></audio>
-<ul><li><a href="lecture-1a-overview-and-introduction-to-lisp.mp3">lecture 1a overview and introduction to lisp</a></li><li><a href="lecture-1b-procedures-and-processes-substitution-model.mp3">lecture 1b procedures and processes substitution model</a></li><li><a href="lecture-2a-higher-order-procedures.mp3">lecture 2a higher order procedures</a></li><li><a href="lecture-2b-compound-data.mp3">lecture 2b compound data</a></li><li><a href="lecture-3a-henderson-escher-example.mp3">lecture 3a henderson escher example</a></li><li><a href="lecture-3b-symbolic-differentiation-quotation.mp3">lecture 3b symbolic differentiation quotation</a></li><li><a href="lecture-4a-pattern-matching-and-rule-based-substitution.mp3">lecture 4a pattern matching and rule based substitution</a></li><li><a href="lecture-4b-generic-operators.mp3">lecture 4b generic operators</a></li><li><a href="lecture-5a-assignment-state-and-side-effects.mp3">lecture 5a assignment state and side effects</a></li><li><a href="lecture-5b-computational-objects.mp3">lecture 5b computational objects</a></li><li><a href="lecture-6a-streams-part-1.mp3">lecture 6a streams part 1</a></li></ul>
-<p style="color:#6a6a6e;font-size:.85em">NOL · кирпичик №1 · edge-tts ru-RU-SvetlanaNeural</p>
+<title>SICP · русская озвучка</title><style>
+body{background:#0c0c0d;color:#c9c7c2;font-family:Georgia,serif;max-width:640px;margin:0 auto;padding:1.4em 1.2em 4em}
+h1{color:#f2efe9;font-size:1.4em;margin-bottom:.15em}
+.lead{color:#8a8a8e;font-size:.88em;margin-top:0}
+a{color:#9ec5fe;text-decoration:none} a.on{color:#f2efe9;font-weight:bold}
+ol{padding-left:1.5em} li{margin:.6em 0;line-height:1.35}
+audio{width:100%;position:sticky;top:0;margin:.6em 0 1em;background:#0c0c0d}
+.top a{color:#8a8a8e;font-size:.85em}
+</style></head><body>
+<h1>SICP · русская озвучка</h1>
+<p class="lead">Абельсон и Сассман · MIT 6.001 (1986) · Светлана. Тапни лекцию — играет здесь.</p>
+<p class="top"><a href="/lectures/">📚 Русские курсы (теория категорий и др.) →</a></p>
+<audio id="p" controls></audio>
+<ol><li><a href="lecture-1a-overview-and-introduction-to-lisp.mp3" onclick="play(this);return false">1A · Overview and introduction to lisp</a></li><li><a href="lecture-1b-procedures-and-processes-substitution-model.mp3" onclick="play(this);return false">1B · Procedures and processes substitution model</a></li><li><a href="lecture-2a-higher-order-procedures.mp3" onclick="play(this);return false">2A · Higher order procedures</a></li><li><a href="lecture-2b-compound-data.mp3" onclick="play(this);return false">2B · Compound data</a></li><li><a href="lecture-3a-henderson-escher-example.mp3" onclick="play(this);return false">3A · Henderson escher example</a></li><li><a href="lecture-3b-symbolic-differentiation-quotation.mp3" onclick="play(this);return false">3B · Symbolic differentiation quotation</a></li><li><a href="lecture-4a-pattern-matching-and-rule-based-substitution.mp3" onclick="play(this);return false">4A · Pattern matching and rule based substitution</a></li><li><a href="lecture-4b-generic-operators.mp3" onclick="play(this);return false">4B · Generic operators</a></li><li><a href="lecture-5a-assignment-state-and-side-effects.mp3" onclick="play(this);return false">5A · Assignment state and side effects</a></li><li><a href="lecture-5b-computational-objects.mp3" onclick="play(this);return false">5B · Computational objects</a></li><li><a href="lecture-6a-streams-part-1.mp3" onclick="play(this);return false">6A · Streams part 1</a></li><li><a href="lecture-6b-streams-part-2.mp3" onclick="play(this);return false">6B · Streams part 2</a></li><li><a href="lecture-7a-metacircular-evaluator-part-1.mp3" onclick="play(this);return false">7A · Metacircular evaluator part 1</a></li></ol>
+<script>
+var p=document.getElementById('p');
+function play(a){document.querySelectorAll('ol a').forEach(function(x){x.className=''});a.className='on';p.src=a.getAttribute('href');p.play();}
+</script>
+<p style="color:#5a5a5e;font-size:.8em;margin-top:2.5em">NOL · кирпичик №1 · edge-tts ru-RU-SvetlanaNeural · 13 лекций</p>
 </body></html>
